@@ -22,16 +22,21 @@ function apiInit(args, videoSize) {
 function apiFinish(args, id, video_id) {
 	const videoTitle = args.title || ''
 	const description = args.description || ''
+	let formData = {
+		access_token: args.token,
+		upload_phase: 'finish',
+		upload_session_id: id,
+		title: videoTitle,
+		description: description
+	}
+	
+	if(args.secret)
+		formData.secret = true
+	
 	const options = {
 		method: 'POST',
 		uri: `${url}/v2.6/${args.id}/videos`,
-		form: {
-			access_token: args.token,
-			upload_phase: 'finish',
-			upload_session_id: id,
-			title: videoTitle,
-			description: description
-		},
+		form: formData,
 		json: true
 	};
 
